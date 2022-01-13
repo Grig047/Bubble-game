@@ -1,0 +1,149 @@
+<html>
+
+<head>
+    <title>
+        Bubble Catch
+    </title>
+    <link href="style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <button id="dd" class="del" onclick="audio_1.play()">Start Pl/1</button>
+    <button id="np" onclick="audio_2.play()">Start Pl/2</button>
+    <button type="submit" class="del" id="RefreshPage">End Game</button>
+    <button class="other del">You Have 10 Seconds!!!</button><br>
+    <input type="text" name="qanak" class="other del" style="width: 110px;" id="cl_num" value="" readonly>
+    <input type="text" name="qanak_2" class="other" style="width: 110px;" id="cl_num_2" value="" readonly>
+    <audio id=audio_1 src="song_1.mp3" hidden autoplay></audio>
+    <audio id=audio_2 src="song_2.mp3" hidden autoplay></audio>
+    <div id="all">
+        <div class="sharik_0 sh" style="background-color: rgb(162, 162, 162);"></div>
+        <div class="sharik_1 sh" style="background-color: blue;"></div>
+        <div class="sharik_2 sh" style="background-color: rgb(0, 247, 234);"></div>
+        <div class="sharik_3 sh" style="background-color: rgb(233, 3, 130);"></div>
+        <div class="sharik_4 sh" style="background-color: rgb(251, 251, 251);"></div>
+        <div class="sharik_5 sh" style="background-color: rgb(10, 128, 69);"></div>
+        <div class="sharik_6 sh" style="background-color: rgb(56, 22, 136);"></div>
+        <div class="sharik_7 sh" style="background-color: rgb(192, 111, 86);"></div>
+        <div class="sharik_8 sh" style="background-color: rgb(146, 64, 139);"></div>
+        <div class="sharik_9 sh" style="background-color: rgb(199, 38, 132);"></div>
+        <div class="sharik_10 sh" style="background-color: rgb(0, 255, 106);"></div>
+        <div class="sharik_0 sha" style="background-color: rgb(138, 138, 204);"></div>
+        <div class="sharik_1 sha" style="background-color: blue;"></div>
+        <div class="sharik_2 sha" style="background-color: rgb(0, 247, 234);"></div>
+        <div class="sharik_3 sha" style="background-color: rgb(233, 3, 130);"></div>
+        <div class="sharik_4 sha" style="background-color: rgb(251, 251, 251);"></div>
+        <div class="sharik_5 sha" style="background-color: rgb(10, 128, 69);"></div>
+        <div class="sharik_6 sha" style="background-color: rgb(56, 22, 136);"></div>
+        <div class="sharik_7 sha" style="background-color: rgb(192, 111, 86);"></div>
+        <div class="sharik_8 sha" style="background-color: rgb(146, 64, 139);"></div>
+        <div class="sharik_9 sha" style="background-color: rgb(199, 38, 132);"></div>
+        <div class="sharik_10 sha" style="background-color: rgb(0, 255, 106);"></div>
+    </div>
+    <script>
+        $('#np').hide()
+        $('.sh').hide()
+        $('.sha').hide()
+        $('#cl_num_2').hide()
+        function refr() {
+            location.reload();
+        }
+        $('#RefreshPage').click(function () {
+            refr()
+        });
+        function newPosition() {
+            var height = $('#all').height() - 200;
+            var width = $('#all').width() - 200;
+            var num_1 = (Math.floor(Math.random() * height) + 150);
+            var num_2 = Math.floor(Math.random() * width);
+            return [num_1, num_2];
+        }
+
+        $(document).ready(function () {
+            $('#dd').click(function () {
+                $('.sh').show()
+                var a = setInterval(function game() {
+                    $('#all > .sh').each(function (k, v) {
+                        $(v).animate({ top: newPosition()[0], left: newPosition()[1] }, 1000)
+                    })
+                }, 1000)
+                var j = 1;
+                $('.sh').click(function () {
+                    $('#cl_num').val('Points' + ':' + j);
+                    j++;
+                    $(this).addClass('deleted').hide()
+                    if ($('.deleted').length == 11) {
+                        audio_1.pause()
+                        alert('Nice work, you have' + ' ' + 11 + ' ' + 'points!!!');
+                        alert('Player 2')
+                        clearInterval(a)
+                        $('.sh').hide()
+                        $('#dd').hide()
+                        $('#cl_num').hide()
+                        $('#np').show()
+                    }
+                })
+                var i = 0
+                setInterval(function () {
+                    i++
+                    if (i == 20 && $('.deleted').length < 11) {
+                        audio_1.pause()
+                        alert($('#cl_num').val())
+                        alert('Player 2')
+                        clearInterval(a)
+                        $('.sh').hide()
+                        $('#dd').hide()
+                        $('#cl_num').hide()
+                        $('#np').show()
+                    }
+                }, 1000)
+                var n = 1
+                $('#np').click(function () {
+                    $('.sha').show()
+                    $('#cl_num_2').show()
+                    var b = setInterval(function game_2() {
+                        $('#all > .sha').each(function (k, v) {
+                            $(v).animate({ top: newPosition()[0], left: newPosition()[1] }, 1000)
+                        })
+                    }, 1000)
+                    $('.sha').click(function () {
+                        $(this).addClass('deleted_2').hide()
+                        $('#cl_num_2').val('Points' + ':' + n);
+                        n++
+                        if ($('.deleted_2').length == 11) {
+                            alert('Nice work, you have' + ' ' + 11 + ' ' + 'points!!!');
+                            if ($('.deleted').length > $('.deleted_2').length) {
+                                alert('Player 1 WIN!!!')
+                            } else if ($('.deleted').length < $('.deleted_2').length) {
+                                alert('Player 2 WIN!!!')
+                            } else {
+                                alert('DRAW!!!')
+                            }
+                            refr()
+                        }
+                    })
+                    var z = 0
+                    setInterval(function () {
+                        z++
+                        if (z == 20 && $('.deleted_2').length < 11) {
+                            alert($('#cl_num_2').val())
+                            alert('End game')
+                            if ($('.deleted').length > $('.deleted_2').length) {
+                                alert('Player 1 WIN!!!')
+                            } else if ($('.deleted').length < $('.deleted_2').length) {
+                                alert('Player 2 WIN!!!')
+                            } else {
+                                alert('DRAW!!!')
+                            }
+                            refr()
+                        }
+                    }, 1000)
+                })
+                $('body').css('background-color', 'black');
+            })
+        })
+    </script>
+</body>
+
+</html>
